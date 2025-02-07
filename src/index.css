@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  font-family: 'Playfair Display', serif; /* Use Playfair Display font */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a{
+  text-decoration: none;
+}
