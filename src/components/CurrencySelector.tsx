@@ -10,9 +10,19 @@ interface Props {
 
 const CurrencySelector: React.FC<Props> = ({ label, value, onChange, options }) => {
   return (
-    <FormControl fullWidth sx={{ mb: 2 }}>
+    <FormControl fullWidth sx={{ mb: 3, borderRadius: 2, boxShadow: 2 }}>
       <InputLabel>{label}</InputLabel>
-      <Select value={value} onChange={(e) => onChange(e.target.value)} label={label}>
+      <Select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        label={label}
+        sx={{
+          bgcolor: 'white',
+          borderRadius: 2,
+          '&:hover': { bgcolor: 'action.hover' },
+          '&.Mui-focused': { borderColor: 'primary.main' },
+        }}
+      >
         <MenuItem value="">Select a currency</MenuItem>
         {options.map((option) => (
           <MenuItem key={option.value} value={option.value}>

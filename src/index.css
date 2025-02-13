@@ -1,3 +1,32 @@
+#root {
+  background-image: url('/images/world-map.jpg'); /* Ensure this file exists in public/images */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* So the tint overlay applies properly */
+}
+
+/* Add a dark overlay on top */
+#root::before {
+  content: "";
+  position: fixed; /* Use fixed so it covers everything */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* Darken effect */
+  z-index: 0; /* Ensure it's behind content but over background */
+}
+
+#root > * {
+  position: relative;
+  z-index: 1;
+}
+
 body {
   margin: 0;
   font-family: 'Playfair Display', serif; /* Use Playfair Display font */

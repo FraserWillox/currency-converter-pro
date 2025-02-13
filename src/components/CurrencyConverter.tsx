@@ -3,13 +3,35 @@ import { convertCurrency } from '../api/currencyApi';
 import { formatCurrency } from '../utils/formatCurrency';
 import { Box, Button, TextField, Typography, CircularProgress } from '@mui/material';
 
-interface Props {
-  fromCurrency: string;
-  toCurrency: string;
-  currencies: { value: string; symbol: string; symbol_first: boolean; thousands_separator: string; precision: number }[];
+interface ConversionHistory {
+  from: string;
+  to: string;
+  amount: number;
+  convertedValue: string;
 }
 
-const CurrencyConverter: React.FC<Props> = ({ fromCurrency, toCurrency, currencies }) => {
+interface Currency {
+  value: string;
+  label: string;
+  symbol: string;
+  symbol_first: boolean;
+  thousands_separator: string;
+  precision: number;
+}
+
+const MAX_HISTORY = 5;
+
+const CurrencyConverter: React.FC<{ 
+  fromCurrency: string; 
+  toCurrency: string; 
+  currencies: Currency[]; 
+  onConversion: (historyUpdater: (prevHistory: ConversionHistory[]) => ConversionHistory[]) => void 
+}> = ({
+  fromCurrency,
+  toCurrency,
+  currencies,
+  onConversion
+}) => {
   const [amount, setAmount] = useState('');
   const [convertedAmount, setConvertedAmount] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -34,6 +56,14 @@ const CurrencyConverter: React.FC<Props> = ({ fromCurrency, toCurrency, currenci
           toCurrencyData.precision
         );
         setConvertedAmount(formattedAmount);
+
+        onConversion((prevHistory: ConversionHistory[]) => {
+          const updatedHistory = [
+            { from: fromCurrency, to: toCurrency, amount: parseFloat(amount), convertedValue: formattedAmount },
+            ...prevHistory,
+          ];
+          return updatedHistory.slice(0, MAX_HISTORY);
+        });
       }
     } catch (error) {
       console.error('Error converting currency:', error);
@@ -44,14 +74,17 @@ const CurrencyConverter: React.FC<Props> = ({ fromCurrency, toCurrency, currenci
   };
 
   return (
-    <Box sx={{ mt: 2 }}>
+    <Box sx={{ p: 3, bgcolor: 'white', borderRadius: 3, boxShadow: 3 }}>
+      <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>
+        Currency Converter
+      </Typography>
       <TextField
         label="Amount"
         type="number"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
         fullWidth
-        sx={{ mb: 2 }}
+        sx={{ mb: 2, bgcolor: 'white', borderRadius: 2, boxShadow: 1 }}
       />
       <Button
         variant="contained"
@@ -59,17 +92,39 @@ const CurrencyConverter: React.FC<Props> = ({ fromCurrency, toCurrency, currenci
         fullWidth
         onClick={handleConvert}
         disabled={loading}
-        sx={{ mb: 2 }}
+        sx={{
+          mb: 3,
+          fontWeight: 'bold',
+          borderRadius: 2,
+          boxShadow: 3,
+          '&:hover': { boxShadow: 6 },
+        }}
       >
         {loading ? <CircularProgress size={24} /> : 'Convert'}
       </Button>
       {convertedAmount !== null && (
-        <Box sx={{ mt: 2, p: 2, bgcolor: 'success.light', borderRadius: 1 }}>
-          <Typography variant="h6" color="success.dark">
-            Converted Amount: {convertedAmount}
-          </Typography>
-        </Box>
-      )}
+  <Box 
+    sx={{ 
+      mt: 3, 
+      p: 2, 
+      bgcolor: 'white', 
+      borderRadius: 3, 
+      boxShadow: 3, 
+      textAlign: 'center'
+    }}
+  >
+    <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+      Converted Amount:
+    </Typography>
+    <Typography 
+      variant="h4" 
+      sx={{ fontWeight: 'bold', color: 'text.primary', mt: 1 }}
+    >
+      {convertedAmount}
+    </Typography>
+  </Box>
+)}
+
     </Box>
   );
 };
