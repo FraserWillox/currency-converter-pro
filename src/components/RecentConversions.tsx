@@ -14,7 +14,7 @@ interface RecentConversionsProps {
 
 const RecentConversions: React.FC<RecentConversionsProps> = ({ history }) => {
   return (
-    <Box sx={{ p: 3, bgcolor: 'white', borderRadius: 3, boxShadow: 3 }}>
+    <Box sx={{ p: 3, bgcolor: 'white', borderRadius: 3, boxShadow: 3, minHeight:'100%' }}>
       <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>
         Recent Conversions
       </Typography>
