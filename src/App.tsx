@@ -4,6 +4,7 @@ import CurrencyConverter from './components/CurrencyConverter';
 import RecentConversions from './components/RecentConversions';
 import CurrencySelector from './components/CurrencySelector';
 import { fetchCurrencies } from './api/currencyApi';
+import { styled } from '@mui/system';
 
 interface ConversionHistory {
   from: string;
@@ -20,6 +21,36 @@ interface Currency {
   thousands_separator: string;
   precision: number;
 }
+
+const PageContainer = styled(Container)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; 
+  padding-top: 4rem; 
+  padding-bottom: 3rem; 
+  max-width: 100% !important;
+`;
+
+const PaperStyled = styled(Paper)`
+  padding: 2rem;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 900px;
+  background-color: background.paper;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  margin-bottom: 2rem;
+`;
+
+const FooterBox = styled(Box)`
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  opacity: 0.9;
+`;
 
 const App: React.FC = () => {
   const [currencies, setCurrencies] = useState<Currency[]>([]);
@@ -48,38 +79,21 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' , paddingTop: 4, paddingBottom: 4, maxWidth: '100% !important' }}>
-            <Paper
-        elevation={6}
-        sx={{
-          p: 4,
-          borderRadius: 4,
-          width: '90%',
-          maxWidth: 900,
-          bgcolor: 'background.paper',
-          boxShadow: '0px 8px 16px rgba(0,0,0,0.2)',
-          marginBottom: 4
-        }}
-      >
+    <PageContainer>
+        <PaperStyled
+          elevation={6}
+        >
          <Typography variant="h1" sx={{ fontSize: '2.5rem', fontWeight: 'bold', color: 'primary.main', textAlign: 'center' }}>
         Currency Converter Pro
       </Typography>
-      <Typography variant="body1" sx={{ mt: 1, mb: 4, color: 'text.secondary', textAlign: 'center' }}>
+      <Typography variant="body1" sx={{ mt: 1, color: 'text.secondary', textAlign: 'center' }}>
         Convert your currency in real time with up-to-date exchange rates. 
         Simply select your currencies and enter an amount to get instant conversion.
       </Typography>
 
-      </Paper>
-      <Paper
+      </PaperStyled>
+      <PaperStyled
         elevation={6}
-        sx={{
-          p: 4,
-          borderRadius: 4,
-          width: '90%',
-          maxWidth: 900,
-          bgcolor: 'background.paper',
-          boxShadow: '0px 8px 16px rgba(0,0,0,0.2)',
-        }}
       >
      
         <Grid container spacing={4}>
@@ -95,20 +109,11 @@ const App: React.FC = () => {
             <RecentConversions history={conversionHistory} />
           </Grid>
         </Grid>
-      </Paper>
-      <Box
-        sx={{
-          position: 'absolute',
-          bottom: 10,
-          right: 20,
-          fontSize: '0.9rem',
-          color: 'rgba(255, 255, 255, 0.8)',
-          opacity: 0.9,
-        }}
-      >
+      </PaperStyled>
+      <FooterBox>
         Created by <strong>Fraser Willox</strong>
-      </Box>
-    </Container>
+      </FooterBox>
+    </PageContainer>
   );
 };
 

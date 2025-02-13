@@ -103,27 +103,26 @@ const CurrencyConverter: React.FC<{
         {loading ? <CircularProgress size={24} /> : 'Convert'}
       </Button>
       {convertedAmount !== null && (
-  <Box 
-    sx={{ 
-      mt: 3, 
-      p: 2, 
-      bgcolor: 'white', 
-      borderRadius: 3, 
-      boxShadow: 3, 
-      textAlign: 'center'
-    }}
-  >
-    <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-      Converted Amount:
-    </Typography>
-    <Typography 
-      variant="h4" 
-      sx={{ fontWeight: 'bold', color: 'text.primary', mt: 1 }}
-    >
-      {convertedAmount}
-    </Typography>
-  </Box>
-)}
+        <Box 
+          sx={{ 
+            p: 2, 
+            bgcolor: 'white', 
+            borderRadius: 3, 
+            boxShadow: 3, 
+            textAlign: 'center'
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+            Converted Amount:
+          </Typography>
+          <Typography 
+            variant="h4" 
+            sx={{ fontWeight: 'bold', color: 'text.primary'}}
+          >
+            {convertedAmount}
+          </Typography>
+        </Box>
+      )}
 
     </Box>
   );
